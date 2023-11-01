@@ -8,7 +8,7 @@ class Node {
 
 class Tree {
   constructor(arr){
-    this.arr = arr = [...new Set(arr)].sort((a, b) => a - b);
+    this.arr = [...new Set(arr)].sort((a, b) => a - b);
     this.root = this.buildTree(this.arr, 0, this.arr.length - 1);
   }
 
@@ -17,9 +17,53 @@ class Tree {
     const mid = Math.floor((start + end) / 2);
     const node = new Node(arr[mid]);
 
-    node.left = this.buildTree(arr, start, mid - 1);
-    node.right = this.buildTree(arr, mid + 1, end);
+    node.leftChild = this.buildTree(arr, start, mid - 1);
+    node.rightChild = this.buildTree(arr, mid + 1, end);
     return node;
+  }
+
+  insert(data){
+    let node = new Node(data);
+    let prev = this.root;
+    let curr = this.root;
+
+    while(curr){
+      if (data < curr.data){
+        prev = curr;
+        curr = curr.leftChild;
+      } else {
+        prev = curr;
+        curr = curr.rightChild;
+      }
+    }
+    curr = node;
+    if (prev.data < curr.data) {
+      prev.rightChild = curr;
+    } else {
+      prev.leftChild = curr;
+    }
+  }
+
+  delete(data, root = this.root) {
+
+    if( root === null) return root;
+
+      if (data < root.data) { root.leftChild = this.delete(data, root.leftChild);
+      } 
+      else if (data > root.data) {
+        root.rightChild = this.delete(data, root.rightChild);
+      } else {
+        if (root.leftChild === null && root.rightChild === null) return null;
+        if (root.leftChild === null) return root.rightChild;
+        if (root.rightChild === null) return root.leftChild;
+        
+        while(root.rightChild && root.rightChild.leftChild !== null){
+          root.rightChild = root.rightChild.leftChild;
+        }
+        let tmp = root.rightChild;
+        root.data = tmp.data;
+        root.rightChild = this.delete(tmp.data, root.rightChild);
+      }
   }
 }
 
@@ -27,17 +71,20 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
   }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  if (node.rightChild !== null) {
+    prettyPrint(node.rightChild, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
   console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  if (node.leftChild !== null) {
+    prettyPrint(node.leftChild, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
 
-let arrTree = [1,2,3,4,5];
-let tree = new Tree([3,4,7,4,7,9,10,11]);
+let arrTree = [1, 2, 3, 4, 5];
+let tree = new Tree(arrTree);
 
+//prettyPrint(tree.root);
+tree.insert(7);
 prettyPrint(tree.root);
-console.log(tree.root);
+tree.delete(4);
+prettyPrint(tree.root);
