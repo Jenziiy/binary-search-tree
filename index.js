@@ -40,3 +40,4 @@ let arrTree = [1,2,3,4,5];
 let tree = new Tree([3,4,7,4,7,9,10,11]);
 
 prettyPrint(tree.root);
+console.log(tree.root);
