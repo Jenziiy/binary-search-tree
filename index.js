@@ -65,6 +65,20 @@ class Tree {
         root.rightChild = this.delete(tmp.data, root.rightChild);
       }
   }
+  find(data) {
+    let curr = this.root;
+
+    while (curr) {
+      if (data < curr.data) {
+        curr = curr.leftChild;
+      } else if (data > curr.data) {
+        curr = curr.rightChild;
+      } else {
+        return curr;
+      }
+    }
+    return null;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -88,3 +102,5 @@ tree.insert(7);
 prettyPrint(tree.root);
 tree.delete(4);
 prettyPrint(tree.root);
+tree.find(5);
+console.log(tree.find(5));
