@@ -1,4 +1,4 @@
-class Node {
+export class Node {
   constructor(data, leftChild = null, rightChild = null){
     this.data = data;
     this.leftChild = leftChild;
@@ -6,7 +6,7 @@ class Node {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(arr){
     this.arr = [...new Set(arr)].sort((a, b) => a - b);
     this.root = this.buildTree(this.arr, 0, this.arr.length - 1);
@@ -192,7 +192,7 @@ class Tree {
   }
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+export const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
   }
