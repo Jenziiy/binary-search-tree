@@ -121,6 +121,55 @@ class Tree {
 
     return arr;
   }
+
+  preOrder(arr = [], root = this.root){
+
+    if (root === null) return;
+
+    arr.push(root.data);
+    this.preOrder(arr, root.leftChild);
+    this.preOrder(arr, root.rightChild);
+    
+    return arr;
+  }
+
+  postOrder(arr = [], root = this.root){
+
+    if (root === null) return;
+
+    this.postOrder(arr, root.leftChild);
+    this.postOrder(arr, root.rightChild);
+    arr.push(root.data);
+
+    return arr;
+  }
+
+  getHeight(node = this.root){
+
+    if (node === null) return 0;
+
+    let leftChildHeight = this.getHeight(node.leftChild);
+    let rightChildHeight = this.getHeight(node.rightChild);
+
+    return (Math.max(leftChildHeight, rightChildHeight) + 1 );
+  }
+
+  getDepth(node = this.root){
+    let depth = 0;
+    let curr = node;
+
+    while(curr){
+      if(node.data < curr.data){
+        curr = curr.leftChild;
+        depth++;
+      } else if (node.data > curr.data) {
+        curr = curr.rightChild;
+        depth++;
+      } else { 
+        return depth; 
+      }
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -136,7 +185,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-let arrTree = [1, 2, 3, 4, 5, 6, 7];
+let arrTree = [1, 2, 3, 4, 5];
 let tree = new Tree(arrTree);
 
 //prettyPrint(tree.root);
@@ -147,8 +196,15 @@ let tree = new Tree(arrTree);
 // tree.find(5);
 // console.log(tree.find(5));
 console.log(tree.inOrder());
+console.log(tree.preOrder());
+console.log(tree.postOrder());
+console.log(tree.getHeight());
+console.log(tree.getDepth());
 
-console.log(tree.levelOrder(logTraversalSequence));
+
+
+
+//console.log(tree.levelOrder(logTraversalSequence));
 
 function logTraversalSequence(node, sequence){
 console.log(`Traversal nr ${sequence } = ${node.data}`)
