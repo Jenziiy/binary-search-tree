@@ -96,14 +96,15 @@ export class Tree {
   //   return outputArr;
   // }
 
-  levelOrder(cb = null){
+  levelOrder(cb = (value) => value){
     const queue = [];
     const output = [];
     let count = 0;
+    let dequeuedNode;
     queue.push(this.root);
     while(queue.length !== 0){
-      count ++;
-      let dequeuedNode = queue.shift();
+      count++;
+      dequeuedNode = queue.shift();
       if (cb !== null) cb(dequeuedNode, count);
       output.push(dequeuedNode.data);
       if(dequeuedNode.leftChild !== null) queue.push(dequeuedNode.leftChild);
@@ -231,11 +232,6 @@ prettyPrint(tree.root);
 console.log(tree.reBalance());
 console.log(tree.isBalanced());
 
-
-
-
-//console.log(tree.levelOrder(logTraversalSequence));
-
-function logTraversalSequence(node, sequence){
-console.log(`Traversal nr ${sequence } = ${node.data}`)
+export function logTraversalSequence(node, sequence){
+  if (node?.data) console.log(`Traversal nr ${sequence } = ${node.data}`)
 }

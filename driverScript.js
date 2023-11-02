@@ -1,12 +1,13 @@
-import { Tree, prettyPrint } from './index.js';
+import { Tree, prettyPrint, logTraversalSequence } from './index.js';
 
 const driverArr = Array.from({ length: 12 }, () => Math.floor(Math.random() * 100));
 let tree = new Tree(driverArr);
 
 prettyPrint(tree.root);
+console.log(tree.levelOrder(logTraversalSequence));
 tree.insert(7);
 prettyPrint(tree.root);
-//tree.delete(driverArr[4]);
+tree.delete(driverArr[4]);
 console.log(driverArr);
 prettyPrint(tree.root);
 tree.find(5);
