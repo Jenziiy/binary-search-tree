@@ -64,6 +64,7 @@ export class Tree {
         root.data = tmp.data;
         root.rightChild = this.delete(tmp.data, root.rightChild);
       }
+      return root;
   }
   find(data) {
     let curr = this.root;
