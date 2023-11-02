@@ -79,6 +79,48 @@ class Tree {
     }
     return null;
   }
+
+  // levelOrder(root = this.root, cb = null){
+  //   let rootNode = root;
+  //   let queueArr = [];
+  //   let outputArr = [];
+
+  //   if(rootNode == null) return null;
+  //   outputArr.push(rootNode.data);
+  //   queueArr.push(rootNode.leftChild);
+  //   queueArr.push(rootNode.rightChild);
+  //   rootNode = queueArr[0];
+  //   queueArr.shift();
+  //   this.levelOrder(rootNode);
+  //   return outputArr;
+  // }
+
+  levelOrder(cb = null){
+    const queue = [];
+    const output = [];
+    let count = 0;
+    queue.push(this.root);
+    while(queue.length !== 0){
+      count ++;
+      let dequeuedNode = queue.shift();
+      if (cb !== null) cb(dequeuedNode, count);
+      output.push(dequeuedNode.data);
+      if(dequeuedNode.leftChild !== null) queue.push(dequeuedNode.leftChild);
+      if(dequeuedNode.rightChild !== null) queue.push(dequeuedNode.rightChild);
+    }
+    return output;
+  }
+
+  inOrder(arr = [], root = this.root){
+
+    if (root === null) return;
+
+    this.inOrder(arr, root.leftChild);
+    arr.push(root.data);
+    this.inOrder(arr, root.rightChild);
+
+    return arr;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -94,13 +136,20 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-let arrTree = [1, 2, 3, 4, 5];
+let arrTree = [1, 2, 3, 4, 5, 6, 7];
 let tree = new Tree(arrTree);
 
 //prettyPrint(tree.root);
-tree.insert(7);
-prettyPrint(tree.root);
-tree.delete(4);
-prettyPrint(tree.root);
-tree.find(5);
-console.log(tree.find(5));
+//tree.insert(7);
+// prettyPrint(tree.root);
+// tree.delete(4);
+// prettyPrint(tree.root);
+// tree.find(5);
+// console.log(tree.find(5));
+console.log(tree.inOrder());
+
+console.log(tree.levelOrder(logTraversalSequence));
+
+function logTraversalSequence(node, sequence){
+console.log(`Traversal nr ${sequence } = ${node.data}`)
+}
